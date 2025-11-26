@@ -89,7 +89,13 @@ app.post('/api/generate-hairstyle', upload.fields([{ name: 'image', maxCount: 1 
             console.log(`Received reference image: ${refFile.mimetype}, Size: ${refFile.size} bytes`);
         }
 
-        const { style, color, description, mode } = req.body;
+        const { style, color, description, mode, key } = req.body;
+
+        // Security Check
+        if (process.env.ACCESS_KEY && key !== process.env.ACCESS_KEY) {
+            console.log("Unauthorized request blocked.");
+            return res.status(401).json({ error: 'Unauthorized: Invalid access key' });
+        }
 
         // Prepare prompt parts
         const promptParts = [];

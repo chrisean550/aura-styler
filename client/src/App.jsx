@@ -4,10 +4,9 @@ import Login from './Login';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [accessKey, setAccessKey] = useState('');
 
-  if (!isAuthenticated) {
-    return <Login onLogin={() => setIsAuthenticated(true)} />;
-  }
+
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -52,6 +51,7 @@ function App() {
     formData.append('image', selectedImage);
     formData.append('mode', mode);
     formData.append('description', config.description);
+    formData.append('key', accessKey);
 
     if (mode === 'preset') {
       formData.append('style', config.style);
@@ -92,6 +92,10 @@ function App() {
       setLoading(false);
     }
   };
+
+  if (!isAuthenticated) {
+    return <Login onLogin={(key) => { setIsAuthenticated(true); setAccessKey(key); }} />;
+  }
 
   return (
     <div className="app-container">

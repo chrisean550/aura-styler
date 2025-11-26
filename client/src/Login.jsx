@@ -23,7 +23,7 @@ function Login({ onLogin }) {
             const data = await response.json();
 
             if (data.success) {
-                onLogin();
+                onLogin(key);
             } else {
                 setError('Invalid access key');
             }
